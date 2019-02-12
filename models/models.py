@@ -93,6 +93,13 @@ class Session(models.Model):
     @api.multi
     def action_done(self):
         self.state = 'done'
+        self.env['mail.followers'].create({
+            'res_id': self.id,
+            'res_model': 'openacademy.session',
+            'partner_id': self.instructor_id.id
+        })
+
+
 
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
@@ -148,11 +155,11 @@ class Session(models.Model):
         for r in self:
             r.attendees_count = len(r.attendee_ids)
 
-    @api.constrains('instructor_id', 'attendee_ids')
-    def _check_instructor_not_in_attendees(self):
-        for r in self:
-            if r.instructor_id and r.instructor_id in r.attendee_ids:
-                raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
+    # @api.constrains('instructor_id', 'attendee_ids')
+    # def _check_instructor_not_in_attendees(self):
+    #     for r in self:
+    #         if r.instructor_id and r.instructor_id in r.attendee_ids:
+    #             raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
 
     # def add_follower_id(self, res_id, model, partner_id):
     #     follower_id = False
