@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+from odoo import tools
 from odoo import models, fields, api, exceptions, _
 
 class openacademy(models.Model):
@@ -70,7 +71,7 @@ class Session(models.Model):
     add_date = fields.Datetime(string = 'Adding Date',default=fields.Datetime.today)
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
-    end_date = fields.Datetime(string="End Date", store=True,
+    end_date = fields.Date(string="End Date", store=True,
                            compute='_get_end_date', inverse='_set_end_date')
 
     attendees_count = fields.Integer(
@@ -80,6 +81,7 @@ class Session(models.Model):
         ('confirmed', "Confirmed"),
         ('done', "Done"),
     ], default='draft',track_visibility='onchange')
+
 
 
     @api.multi
@@ -93,13 +95,14 @@ class Session(models.Model):
     @api.multi
     def action_done(self):
         self.state = 'done'
+        env = self.env['mail.followers']
+        domain = []
+        env.search(domain).unlink()
         self.env['mail.followers'].create({
             'res_id': self.id,
             'res_model': 'openacademy.session',
             'partner_id': self.instructor_id.id
         })
-
-
 
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
@@ -155,35 +158,82 @@ class Session(models.Model):
         for r in self:
             r.attendees_count = len(r.attendee_ids)
 
-    # @api.constrains('instructor_id', 'attendee_ids')
-    # def _check_instructor_not_in_attendees(self):
-    #     for r in self:
-    #         if r.instructor_id and r.instructor_id in r.attendee_ids:
-    #             raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
 
-    # def add_follower_id(self, res_id, model, partner_id):
-    #     follower_id = False
-    #     reg = {
-    #         'res_id': res_id,
-    #         'res_model': model,
-    #         'partner_id': partner_id
-    #     }
-    #     try:
-    #         follower_id = self.env['mail.followers'].create(reg)
-    #     except:
-    #         # This partner is already following this record
-    #         return False
-    #     return follower_id
-    #
-    # @api.multi
-    # def write(self, vals):
-    #     res = super(Session, self).write(vals)  # Save the form
-    #     stage_followers = self.env['openacademy.session'].search([('state', '=' , 'done')])
-    #     for i in stage_followers:
-    #         self.add_follower_id(self, self.id, 'session.form', i['state'])
-    #     # Message posting is optional. Add_follower_id will still make the partner follow the record
-    #     messages = "Whatever you want to put in the message box."
-    #     if messages:
-    #         self.message_post(body=messages, partner_ids=self.message_follower_ids)
-    #     return res
-    #
+
+    @api.constrains('instructor_id', 'attendee_ids')
+    def _check_instructor_not_in_attendees(self):
+        for r in self:
+            if r.instructor_id and r.instructor_id in r.attendee_ids:
+                raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
+
+class SessionReport(models.Model):
+    _name = 'openacademy.report'
+    _description = "Session Report"
+    _auto = False
+
+    course_name = fields.Char(string="Title", readonly=True)
+    name = fields.Char('Name', readonly=True)
+    duration = fields.Float(digits=(6, 2), readonly=True, help="Duration in days")
+    seats = fields.Integer(string="Number of seats", readonly=True)
+    end_date = fields.Datetime(string="End Date", readonly=True)
+    create_date = fields.Datetime(string="Create Date", readonly=True)
+    session_counts = fields.Integer(string="Nombre de session", readonly=True)
+    attendees_counts = fields.Integer(string="Nombre de participants", readonly=True)
+    start_date = fields.Datetime(string="Create Date of session", readonly=True)
+    add_date = fields.Datetime(string="Last modification date", readonly=True)
+    session_by_course = fields.Float(string = "Nombre de session par cours", readonly=True)
+    mean_duration = fields.Float(string = "Duree moyenne", readonly=True)
+    course_id = fields.Many2one('openacademy.course',
+                                ondelete='cascade', string="Course", required=True)
+    session_id = fields.Many2one('openacademy.session',
+                                ondelete='cascade', string="Course", required=True)
+    instructor_id = fields.Many2one('res.partner', string="Instructor",
+                                    domain=['|', ('instructor', '=', True),
+                                            ('category_id.name', 'ilike', "Teacher")])
+
+    def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
+        with_ = ("WITH %s" % with_clause) if with_clause else ""
+
+        select_ = """
+                c.id as id,
+                c.create_date as create_date,
+                s.attendees_count as attendees_counts,
+                c.id as course_id,
+                s.id as session_id,
+                count(s.id) as session_counts ,
+                s.name as name,
+                s.start_date as start_date,
+                s.end_date as end_date,
+                s.add_date as add_date,
+                sum(s.duration) as duration,
+                sum(s.seats) as seats,
+                count(s.id)/count(c.id) as session_by_course,
+                avg(end_date - start_date) as mean_duration
+            """
+
+        for field in fields.values():
+            select_ += field
+
+        from_ = """
+                    openacademy_course as c
+                    left join openacademy_session as s  on  s.course_id = c.id
+                    %s
+            """ % from_clause
+
+        groupby_ = """
+                c.id,
+                s.id
+                 %s
+            """ % (groupby)
+
+        return '%s (SELECT %s FROM %s  GROUP BY %s)' % (with_, select_, from_, groupby_)
+
+    @api.model_cr
+    def init(self):
+        print('-------------------------------')
+        print('-------------------------------')
+        tools.drop_view_if_exists(self.env.cr, self._table)
+        self.env.cr.execute("""CREATE or REPLACE VIEW %s as (%s)""" % (self._table, self._query()))
+
+
+
