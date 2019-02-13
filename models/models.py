@@ -3,7 +3,8 @@ from datetime import timedelta
 from odoo import tools
 from odoo import models, fields, api, exceptions, _
 
-class openacademy(models.Model):
+
+class Openacademy(models.Model):
     _name = 'openacademy.openacademy'
 
     name = fields.Char()
@@ -15,6 +16,7 @@ class openacademy(models.Model):
     def _value_pc(self):
         self.value2 = float(self.value) / 100
 
+
 class Course(models.Model):
     _name = 'openacademy.course'
     _description = "OpenAcademy Courses"
@@ -22,7 +24,7 @@ class Course(models.Model):
     name = fields.Char(string="Title", required=True)
     description = fields.Text()
     responsible_id = fields.Many2one('res.users',
-        ondelete='set null', string="Responsible", index=True)
+                                     ondelete='set null', string="Responsible", index=True)
     session_ids = fields.One2many(
         'openacademy.session', 'course_id', string="Sessions")
 
@@ -55,20 +57,21 @@ class Session(models.Model):
     _name = 'openacademy.session'
     _description = "OpenAcademy Sessions"
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    name = fields.Char(required=True,track_visibility='onchange')
+
+    name = fields.Char(required=True, track_visibility='onchange')
     start_date = fields.Date(default=fields.Date.today)
     duration = fields.Float(digits=(6, 2), help="Duration in days")
-    seats = fields.Integer(string="Number of seats",track_visibility='onchange')
+    seats = fields.Integer(string="Number of seats", track_visibility='onchange')
     active = fields.Boolean(default=True)
     color = fields.Integer()
     instructor_id = fields.Many2one('res.partner', string="Instructor",
-         domain=['|', ('instructor', '=', True),
-                ('category_id.name', 'ilike', "Teacher")],track_visibility='onchange')
+                                    domain=['|', ('instructor', '=', True),
+                                            ('category_id.name', 'ilike', "Teacher")], track_visibility='onchange')
 
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course", required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
-    add_date = fields.Datetime(string = 'Adding Date',default=fields.Datetime.today)
+    add_date = fields.Datetime(string='Adding Date', default=fields.Datetime.today)
 
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
     end_date = fields.Date(string="End Date", store=True,
@@ -80,9 +83,7 @@ class Session(models.Model):
         ('draft', "Draft"),
         ('confirmed', "Confirmed"),
         ('done', "Done"),
-    ], default='draft',track_visibility='onchange')
-
-
+    ], default='draft', track_visibility='onchange')
 
     @api.multi
     def action_draft(self):
@@ -158,13 +159,12 @@ class Session(models.Model):
         for r in self:
             r.attendees_count = len(r.attendee_ids)
 
-
-
     @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
                 raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
+
 
 class SessionReport(models.Model):
     _name = 'openacademy.report'
@@ -181,12 +181,12 @@ class SessionReport(models.Model):
     attendees_counts = fields.Integer(string="Nombre de participants", readonly=True)
     start_date = fields.Datetime(string="Create Date of session", readonly=True)
     add_date = fields.Datetime(string="Last modification date", readonly=True)
-    session_by_course = fields.Float(string = "Nombre de session par cours", readonly=True)
-    mean_duration = fields.Float(string = "Duree moyenne", readonly=True)
+    session_by_course = fields.Float(string="Nombre de session par cours", readonly=True)
+    mean_duration = fields.Float(string="Duree moyenne", readonly=True)
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course", required=True)
     session_id = fields.Many2one('openacademy.session',
-                                ondelete='cascade', string="Course", required=True)
+                                 ondelete='cascade', string="Course", required=True)
     instructor_id = fields.Many2one('res.partner', string="Instructor",
                                     domain=['|', ('instructor', '=', True),
                                             ('category_id.name', 'ilike', "Teacher")])
@@ -230,10 +230,5 @@ class SessionReport(models.Model):
 
     @api.model_cr
     def init(self):
-        print('-------------------------------')
-        print('-------------------------------')
         tools.drop_view_if_exists(self.env.cr, self._table)
         self.env.cr.execute("""CREATE or REPLACE VIEW %s as (%s)""" % (self._table, self._query()))
-
-
-
