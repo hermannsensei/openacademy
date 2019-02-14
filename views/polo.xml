@@ -14,14 +14,14 @@
                         <page string="Description">
                             <field name="description"/>
                         </page>
-                         <page string="Sessions">
-                                <field name="session_ids">
-                                    <tree string="Registered sessions">
-                                        <field name="name"/>
-                                        <field name="instructor_id"/>
-                                    </tree>
-                                </field>
-                         </page>
+                        <page string="Sessions">
+                            <field name="session_ids">
+                                <tree string="Registered sessions">
+                                    <field name="name"/>
+                                    <field name="instructor_id"/>
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -126,8 +126,8 @@
                         </group>
                     </group>
 
-                    <label for="attendee_ids" />
-                    <field name="attendee_ids" />
+                    <label for="attendee_ids"/>
+                    <field name="attendee_ids"/>
 
 
                 </sheet>
@@ -249,7 +249,6 @@
             </form>
         </field>
     </record>
-
 
 
     <act_window id="launch_session_wizard"

@@ -78,6 +78,7 @@ class Session(models.Model):
 
     attendees_count = fields.Integer(
         string="Attendees count", compute='_get_attendees_count', store=True)
+    session_instructor = fields.Many2one('hr.employee',string="Instructeur")
     state = fields.Selection([
         ('draft', "Draft"),
         ('confirmed', "Confirmed"),
