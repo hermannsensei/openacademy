@@ -25,6 +25,7 @@
     'depends': ['base',
         'board',
         'mail',
+        'hr',
     ],
 
     # always loaded

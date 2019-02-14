@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
+from datetime import timedelta, date
 from odoo import tools
 from odoo import models, fields, api, exceptions, _
 
 
-class Openacademy(models.Model):
-    _name = 'openacademy.openacademy'
-
-    name = fields.Char()
-    value = fields.Integer()
-    value2 = fields.Float(compute="_value_pc", store=True)
-    description = fields.Text()
-
-    @api.depends('value')
-    def _value_pc(self):
-        self.value2 = float(self.value) / 100
+# class Openacademy(models.Model):
+#     _name = 'openacademy.openacademy'
+#
+#     name = fields.Char()
+#     value = fields.Integer()
+#     value2 = fields.Float(compute="_value_pc", store=True)
+#     description = fields.Text()
+#
+#     @api.depends('value')
+#     def _value_pc(self):
+#         self.value2 = float(self.value) / 100
 
 
 class Course(models.Model):
@@ -78,12 +78,18 @@ class Session(models.Model):
 
     attendees_count = fields.Integer(
         string="Attendees count", compute='_get_attendees_count', store=True)
-    session_instructor = fields.Many2one('hr.employee',string="Instructeur")
     state = fields.Selection([
         ('draft', "Draft"),
         ('confirmed', "Confirmed"),
         ('done', "Done"),
     ], default='draft', track_visibility='onchange')
+    responsible_ext_id = fields.Many2one('res.partner', string="Extern Responsible",
+                                         domain=[('supplier', '=', True)])
+    responsible_int_id = fields.Many2one('hr.employee', string="Intern Responsible")
+    responsible_type = fields.Selection([('interne', 'Interne'),
+                                         ('externe', "Externe")], default='externe',track_visibility='onchange')
+    session_price = fields.Float(string="Price of the session", required=True)
+
 
     @api.multi
     def action_draft(self):
@@ -130,6 +136,12 @@ class Session(models.Model):
                 },
             }
 
+    @api.onchange('responsible_type')
+    def _clean_responsible_type(self):
+        for r in self:
+            r.responsible_ext_id = False
+            r.responsible_int_id = False
+
     @api.depends('start_date', 'duration')
     def _get_end_date(self):
         for r in self:
@@ -139,7 +151,7 @@ class Session(models.Model):
 
             # Add duration to start_date, but: Monday + 5 days = Saturday, so
             # subtract one second to get on Friday instead
-            start = fields.Datetime.from_string(r.start_date)
+            start = fields.Date.from_string(r.start_date)
             duration = timedelta(days=r.duration, seconds=-1)
             r.end_date = start + duration
 
@@ -164,6 +176,22 @@ class Session(models.Model):
         for r in self:
             if r.instructor_id and r.instructor_id in r.attendee_ids:
                 raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
+
+    def create_invoice(self):
+        invoice = self.env['account.invoice'].create({
+            'partner_id': self.responsible_ext_id.id,
+            'name': "Supplier Invoice",
+            'type': "in_invoice",
+            'account_id': self.responsible_ext_id.property_account_payable_id.id,
+            'date_invoice': fields.date.today(),
+        })
+        self.env['account.invoice.line'].create({
+            'quantity': 1,
+            'price_unit': self.session_price,
+            'invoice_id': invoice.id,
+            'name': 'something',
+            'account_id': self.responsible_ext_id.property_account_payable_id.id,
+        })
 
 
 class SessionReport(models.Model):

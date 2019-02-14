@@ -102,7 +102,11 @@
                     <button name="action_done" type="object"
                             string="Mark as done" states="confirmed"
                             class="oe_highlight"/>
+                      <button name="create_invoice" type="object"
+                            string="Facturate"
+                            />
                     <field name="state" widget="statusbar"/>
+
 
                 </header>
                 <sheet>
@@ -111,8 +115,12 @@
                             <field name="course_id" attrs="{'readonly':[('state','=', 'done')]}"/>
 
                             <field name="name"/>
-                            <field name="instructor_id" attrs="{'readonly':[('state','=', 'done')]}"/>
+                            <field name="responsible_type" />
+                             <field name="responsible_ext_id" attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}" />
+                             <field name="responsible_int_id" attrs="{'invisible':[('responsible_type','=', 'externe')], 'required': [('responsible_type', '=', 'interne')]}" />
                             <field name="active" attrs="{'readonly':[('state','=', 'done')]}"/>
+                            <field name="session_price"/>
+
                         </group>
                         <group string="Schedule">
                             <field name="start_date" attrs="{'readonly':[('state','=', 'done')]}"/>
@@ -174,7 +182,7 @@
         </field>
     </record>
     <record model="ir.ui.view" id="view_openacad_session_kanban">
-        <field name="name">openacad.session.kanban</field>
+        <field name="name">openacademy.session.kanban</field>
         <field name="model">openacademy.session</field>
         <field name="arch" type="xml">
             <kanban default_group_by="course_id">
