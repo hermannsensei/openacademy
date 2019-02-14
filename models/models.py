@@ -42,6 +42,11 @@ class Course(models.Model):
         default['name'] = new_name
         return super(Course, self).copy(default)
 
+
+class Session(models.Model):
+    _name = 'openacademy.session'
+    _description = "OpenAcademy Sessions"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _sql_constraints = [
         ('name_description_check',
          'CHECK(name != description)',
@@ -51,12 +56,6 @@ class Course(models.Model):
          'UNIQUE(name)',
          "The course title must be unique"),
     ]
-
-
-class Session(models.Model):
-    _name = 'openacademy.session'
-    _description = "OpenAcademy Sessions"
-    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(required=True, track_visibility='onchange')
     start_date = fields.Date(default=fields.Date.today)
@@ -171,26 +170,6 @@ class SessionReport(models.Model):
     _description = "Session Report"
     _auto = False
 
-    course_name = fields.Char(string="Title", readonly=True)
-    name = fields.Char('Name', readonly=True)
-    duration = fields.Float(digits=(6, 2), readonly=True, help="Duration in days")
-    seats = fields.Integer(string="Number of seats", readonly=True)
-    end_date = fields.Datetime(string="End Date", readonly=True)
-    create_date = fields.Datetime(string="Create Date", readonly=True)
-    session_counts = fields.Integer(string="Nombre de session", readonly=True)
-    attendees_counts = fields.Integer(string="Nombre de participants", readonly=True)
-    start_date = fields.Datetime(string="Create Date of session", readonly=True)
-    add_date = fields.Datetime(string="Last modification date", readonly=True)
-    session_by_course = fields.Float(string="Nombre de session par cours", readonly=True)
-    mean_duration = fields.Float(string="Duree moyenne", readonly=True)
-    course_id = fields.Many2one('openacademy.course',
-                                ondelete='cascade', string="Course", required=True)
-    session_id = fields.Many2one('openacademy.session',
-                                 ondelete='cascade', string="Course", required=True)
-    instructor_id = fields.Many2one('res.partner', string="Instructor",
-                                    domain=['|', ('instructor', '=', True),
-                                            ('category_id.name', 'ilike', "Teacher")])
-
     def _query(self, with_clause='', fields={}, groupby='', from_clause=''):
         with_ = ("WITH %s" % with_clause) if with_clause else ""
 
@@ -227,6 +206,26 @@ class SessionReport(models.Model):
             """ % (groupby)
 
         return '%s (SELECT %s FROM %s  GROUP BY %s)' % (with_, select_, from_, groupby_)
+
+    course_name = fields.Char(string="Title", readonly=True)
+    name = fields.Char('Name', readonly=True)
+    duration = fields.Float(digits=(6, 2), readonly=True, help="Duration in days")
+    seats = fields.Integer(string="Number of seats", readonly=True)
+    end_date = fields.Datetime(string="End Date", readonly=True)
+    create_date = fields.Datetime(string="Create Date", readonly=True)
+    session_counts = fields.Integer(string="Nombre de session", readonly=True)
+    attendees_counts = fields.Integer(string="Nombre de participants", readonly=True)
+    start_date = fields.Datetime(string="Create Date of session", readonly=True)
+    add_date = fields.Datetime(string="Last modification date", readonly=True)
+    session_by_course = fields.Float(string="Nombre de session par cours", readonly=True)
+    mean_duration = fields.Float(string="Duree moyenne", readonly=True)
+    course_id = fields.Many2one('openacademy.course',
+                                ondelete='cascade', string="Course", required=True)
+    session_id = fields.Many2one('openacademy.session',
+                                 ondelete='cascade', string="Course", required=True)
+    instructor_id = fields.Many2one('res.partner', string="Instructor",
+                                    domain=['|', ('instructor', '=', True),
+                                            ('category_id.name', 'ilike', "Teacher")])
 
     @api.model_cr
     def init(self):

@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a9b323ed-eee9-41dc-a8a7-cf8aa0dd6f34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/partner.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/partner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/wizard.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/wizard.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,13 +29,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="749">
-              <caret line="231" column="19" selection-start-line="231" selection-start-column="19" selection-end-line="231" selection-end-column="19" />
+            <state relative-caret-position="324">
+              <caret line="172" column="8" selection-start-line="172" selection-start-column="8" selection-end-line="172" selection-end-column="8" />
               <folding>
                 <element signature="e#24#54#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="3" column="20" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="20" />
+              <folding>
+                <element signature="e#25#50#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -52,11 +62,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/wizard.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="350">
-              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
             </state>
           </provider>
         </entry>
@@ -124,9 +134,9 @@
         <option value="$PROJECT_DIR$/__manifest__.py" />
         <option value="$PROJECT_DIR$/views/openacademy_report.xml" />
         <option value="$PROJECT_DIR$/views/polo.xml" />
-        <option value="$PROJECT_DIR$/models/models.py" />
         <option value="$PROJECT_DIR$/models/partner.py" />
         <option value="$PROJECT_DIR$/models/wizard.py" />
+        <option value="$PROJECT_DIR$/models/models.py" />
       </list>
     </option>
   </component>
@@ -267,12 +277,12 @@
       <workItem from="1549531694115" duration="3896000" />
       <workItem from="1549536375177" duration="4773000" />
       <workItem from="1549545245699" duration="6343000" />
-      <workItem from="1549613718869" duration="83143000" />
+      <workItem from="1549613718869" duration="84453000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115890000" />
+    <option name="totallyTimeSpent" value="117200000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -392,16 +402,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" column="20" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="20" />
-          <folding>
-            <element signature="e#25#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
@@ -441,27 +441,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/__manifest__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="775">
-          <caret line="37" column="33" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/security/security.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="749">
-          <caret line="231" column="19" selection-start-line="231" selection-start-column="19" selection-end-line="231" selection-end-column="19" />
-          <folding>
-            <element signature="e#24#54#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -475,7 +458,34 @@
     <entry file="file://$PROJECT_DIR$/models/wizard.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
-          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__manifest__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="25" column="14" selection-start-line="25" selection-start-column="14" selection-end-line="25" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="3" column="20" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="20" />
+          <folding>
+            <element signature="e#25#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="172" column="8" selection-start-line="172" selection-start-column="8" selection-end-line="172" selection-end-column="8" />
+          <folding>
+            <element signature="e#24#54#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
