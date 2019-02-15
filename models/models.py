@@ -85,7 +85,8 @@ class Session(models.Model):
     responsible_type = fields.Selection([('interne', 'Interne'),
                                          ('externe', "Externe")], default='externe', track_visibility='onchange')
     session_price = fields.Float(string="Price of the session", required=True)
-
+    bills_count = fields.Integer(compute='_display_bill_count')
+    bill_related = fields.Many2one('account.invoice',string = 'Bills')
     @api.multi
     def action_draft(self):
         self.state = 'draft'
@@ -94,19 +95,23 @@ class Session(models.Model):
     def action_confirm(self):
         self.state = 'confirmed'
 
+    @api.onchange('responsible_type')
+    def _get_instructor(self):
+        if self.responsible_type == 'interne':
+            return self.responsible_int_id
+        else:
+            return self.responsible_ext_id
+
+
     @api.multi
     def action_done(self):
         self.state = 'done'
         env = self.env['mail.followers']
         env.search([]).unlink()
-        if self.responsible_type == 'interne':
-            instructor_id = self.responsible_int_id
-        else:
-            instructor_id = self.responsible_ext_id
         self.env['mail.followers'].create({
             'res_id': self.id,
             'res_model': 'openacademy.session',
-            'partner_id': instructor_id.id
+            'partner_id': self._get_instructor().id
         })
 
     @api.depends('seats', 'attendee_ids')
@@ -169,10 +174,10 @@ class Session(models.Model):
         for r in self:
             r.attendees_count = len(r.attendee_ids)
 
-    @api.constrains('instructor_id', 'attendee_ids')
+    @api.constrains('responsible_type', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):
         for r in self:
-            if r.instructor_id and r.instructor_id in r.attendee_ids:
+            if r._get_instructor() and r._get_instructor() in r.attendee_ids:
                 raise exceptions.ValidationError(_("A session's instructor can't be an attendee"))
 
     def create_invoice(self):
@@ -190,6 +195,24 @@ class Session(models.Model):
             'name': 'something',
             'account_id': self.responsible_ext_id.property_account_payable_id.id,
         })
+
+    @api.multi
+    def _display_bill_count(self):
+        for rel in self:
+            count_id = self.env['account.invoice'].search([])
+            self.bills_count = len(count_id)
+
+    @api.multi
+    def see_bill(self):
+        return {
+            'name': _('String'),
+            'type': 'ir.actions.act_window',
+            'domain': [],
+            'view_type': 'form',
+            'view_mode': 'tree,form',
+            'res_model': 'account.invoice',
+            'target': 'current',
+        }
 
 
 class SessionReport(models.Model):

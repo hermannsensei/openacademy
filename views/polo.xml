@@ -102,24 +102,34 @@
                     <button name="action_done" type="object"
                             string="Mark as done" states="confirmed"
                             class="oe_highlight"/>
-                      <button name="create_invoice" type="object"
+                    <button name="create_invoice" type="object"
                             string="Facturate"
-                            />
+                    />
                     <field name="state" widget="statusbar"/>
 
 
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    <button name="see_bill" type="object"
+                            class="oe_stat_button" icon="fa-icons">
+                        <field name="bills_count" widget="statinfo"
+                               string="Bills"/>
+                    </button>
+                    </div>
                     <group>
                         <group string="General">
                             <field name="course_id" attrs="{'readonly':[('state','=', 'done')]}"/>
 
                             <field name="name"/>
-                            <field name="responsible_type" />
-                             <field name="responsible_ext_id" attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}" />
-                             <field name="responsible_int_id" attrs="{'invisible':[('responsible_type','=', 'externe')], 'required': [('responsible_type', '=', 'interne')]}" />
+                            <field name="responsible_type"/>
+                            <field name="responsible_ext_id"
+                                   attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}"/>
+                            <field name="responsible_int_id"
+                                   attrs="{'invisible':[('responsible_type','=', 'externe')], 'required': [('responsible_type', '=', 'interne')]}"/>
                             <field name="active" attrs="{'readonly':[('state','=', 'done')]}"/>
-                            <field name="session_price"  attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}" />
+                            <field name="session_price"
+                                   attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}"/>
 
                         </group>
                         <group string="Schedule">
