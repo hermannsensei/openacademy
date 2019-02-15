@@ -2,10 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a9b323ed-eee9-41dc-a8a7-cf8aa0dd6f34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/__manifest__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/polo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/views/polo.xml" afterDir="false" />
     </list>
@@ -16,7 +12,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/openacademy$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1550163082631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/opt/odoo/odoo-server/" />
+    <SUITE FILE_PATH="coverage/openacademy$odoo_bin.coverage" NAME="odoo-bin Coverage Results" MODIFIED="1550224524568" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/opt/odoo/odoo-server/" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -37,8 +33,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="692">
-              <caret line="193" column="10" selection-start-line="193" selection-start-column="10" selection-end-line="193" selection-end-column="10" />
+            <state relative-caret-position="342">
+              <caret line="85" column="85" selection-start-line="85" selection-start-column="85" selection-end-line="85" selection-end-column="85" />
               <folding>
                 <element signature="e#24#54#0" expanded="true" />
               </folding>
@@ -67,8 +63,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/polo.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="121" column="55" selection-start-line="121" selection-start-column="55" selection-end-line="121" selection-end-column="55" />
+            <state relative-caret-position="492">
+              <caret line="167" column="116" selection-start-line="167" selection-start-column="116" selection-end-line="167" selection-end-column="116" />
             </state>
           </provider>
         </entry>
@@ -77,9 +73,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>copied</find>
-      <find>attendee</find>
-      <find>attendee.name</find>
       <find>attrs</find>
       <find>readonly</find>
       <find>name = 'mail.thread</find>
@@ -105,8 +98,11 @@
       <find>description</find>
       <find>def create_account</find>
       <find>invoice.action_invoice_open</find>
-      <find>create_in</find>
       <find>def action_invoice_open</find>
+      <find>create_in</find>
+      <find>des</find>
+      <find>instructor_id</find>
+      <find>desc</find>
     </findStrings>
     <dirStrings>
       <dir>/opt/odoo/odoo-server/addons</dir>
@@ -281,12 +277,12 @@
       <workItem from="1549531694115" duration="3896000" />
       <workItem from="1549536375177" duration="4773000" />
       <workItem from="1549545245699" duration="6343000" />
-      <workItem from="1549613718869" duration="98677000" />
+      <workItem from="1549613718869" duration="104533000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131424000" />
+    <option name="totallyTimeSpent" value="137280000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -301,12 +297,12 @@
     <frame x="106" y="-7" width="2774" height="1807" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23054114" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23054114" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32956687" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49962935" visible="true" weight="0.259887" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49962935" visible="true" weight="0.259887" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -469,24 +465,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///opt/odoo/odoo-server/addons/account/models/account_invoice.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="525" column="39" selection-start-line="525" selection-start-column="35" selection-end-line="525" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/partner.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
           <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/polo.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="121" column="55" selection-start-line="121" selection-start-column="55" selection-end-line="121" selection-end-column="55" />
         </state>
       </provider>
     </entry>
@@ -497,10 +479,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///opt/odoo/odoo-server/addons/account/models/account_invoice.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="525" column="39" selection-start-line="525" selection-start-column="35" selection-end-line="525" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/polo.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="167" column="116" selection-start-line="167" selection-start-column="116" selection-end-line="167" selection-end-column="116" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="193" column="10" selection-start-line="193" selection-start-column="10" selection-end-line="193" selection-end-column="10" />
+        <state relative-caret-position="342">
+          <caret line="85" column="85" selection-start-line="85" selection-start-column="85" selection-end-line="85" selection-end-column="85" />
           <folding>
             <element signature="e#24#54#0" expanded="true" />
           </folding>

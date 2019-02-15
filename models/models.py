@@ -63,10 +63,6 @@ class Session(models.Model):
     seats = fields.Integer(string="Number of seats", track_visibility='onchange')
     active = fields.Boolean(default=True)
     color = fields.Integer()
-    instructor_id = fields.Many2one('res.partner', string="Instructor",
-                                    domain=['|', ('instructor', '=', True),
-                                            ('category_id.name', 'ilike', "Teacher")], track_visibility='onchange')
-
     course_id = fields.Many2one('openacademy.course',
                                 ondelete='cascade', string="Course", required=True)
     attendee_ids = fields.Many2many('res.partner', string="Attendees")
@@ -87,9 +83,8 @@ class Session(models.Model):
                                          domain=[('supplier', '=', True)])
     responsible_int_id = fields.Many2one('hr.employee', string="Intern Responsible")
     responsible_type = fields.Selection([('interne', 'Interne'),
-                                         ('externe', "Externe")], default='externe',track_visibility='onchange')
+                                         ('externe', "Externe")], default='externe', track_visibility='onchange')
     session_price = fields.Float(string="Price of the session", required=True)
-
 
     @api.multi
     def action_draft(self):
@@ -103,12 +98,15 @@ class Session(models.Model):
     def action_done(self):
         self.state = 'done'
         env = self.env['mail.followers']
-        domain = []
-        env.search(domain).unlink()
+        env.search([]).unlink()
+        if self.responsible_type == 'interne':
+            instructor_id = self.responsible_int_id
+        else:
+            instructor_id = self.responsible_ext_id
         self.env['mail.followers'].create({
             'res_id': self.id,
             'res_model': 'openacademy.session',
-            'partner_id': self.instructor_id.id
+            'partner_id': instructor_id.id
         })
 
     @api.depends('seats', 'attendee_ids')

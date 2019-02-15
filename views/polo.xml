@@ -18,7 +18,7 @@
                             <field name="session_ids">
                                 <tree string="Registered sessions">
                                     <field name="name"/>
-                                    <field name="instructor_id"/>
+                                    <field name="responsible_type"/>
                                 </tree>
                             </field>
                         </page>
@@ -119,7 +119,7 @@
                              <field name="responsible_ext_id" attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}" />
                              <field name="responsible_int_id" attrs="{'invisible':[('responsible_type','=', 'externe')], 'required': [('responsible_type', '=', 'interne')]}" />
                             <field name="active" attrs="{'readonly':[('state','=', 'done')]}"/>
-                            <field name="session_price"/>
+                            <field name="session_price"  attrs="{'invisible':[('responsible_type','=', 'interne')], 'required': [('responsible_type', '=', 'externe')]}" />
 
                         </group>
                         <group string="Schedule">
@@ -165,7 +165,7 @@
         <field name="name">session.calendar</field>
         <field name="model">openacademy.session</field>
         <field name="arch" type="xml">
-            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="instructor_id">
+            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="responsible_type">
                 <field name="name"/>
             </calendar>
         </field>
